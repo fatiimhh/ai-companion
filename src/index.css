@@ -119,3 +119,10 @@ body {
   background: transparent;
   overflow: hidden;
 }
+
+
+@keyframes floatRotate {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}

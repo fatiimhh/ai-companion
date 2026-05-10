@@ -18,14 +18,15 @@ function App() {
       }}
     >
       <img
-        src="/robot.png"
-        alt="robot"
-        style={{
-          width: "120px",
-          cursor: "grab",
-          userSelect: "none",
-        }}
-      />
+  src="/robot.png"
+  alt="robot"
+  style={{
+    width: "120px",
+    cursor: "grab",
+    userSelect: "none",
+    animation: "floatRotate 3s ease-in-out infinite"
+  }}
+/>
     </div>
   );
 }
