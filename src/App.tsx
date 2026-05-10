@@ -1,32 +1,30 @@
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { useState } from "react";
+
+import Character from "./components/Character/Character";
+import ChatBubble from "./components/ChatBubble/ChatBubble";
 
 function App() {
-  const handleDrag = async () => {
-    const win = getCurrentWindow();
-    await win.startDragging();
+  const [showBubble, setShowBubble] = useState(false);
+
+  const handleCharacterClick = () => {
+    setShowBubble(!showBubble);
   };
 
   return (
     <div
-      onMouseDown={handleDrag}
       style={{
-        width: "100%",
-        height: "100%",
+        width: "100vw",
+        height: "100vh",
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-end",
+        position: "relative",
+        padding: "20px",
       }}
     >
-      <img
-  src="/robot.png"
-  alt="robot"
-  style={{
-    width: "120px",
-    cursor: "grab",
-    userSelect: "none",
-    animation: "floatRotate 3s ease-in-out infinite"
-  }}
-/>
+      {showBubble && <ChatBubble />}
+
+      <Character onClick={handleCharacterClick} />
     </div>
   );
 }
