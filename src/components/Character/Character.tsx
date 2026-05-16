@@ -2,8 +2,6 @@ import "./Character.css";
 
 
 
-
-
 type CharacterProps = {
   onClick: () => void;
 };
