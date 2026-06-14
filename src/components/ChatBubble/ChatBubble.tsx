@@ -40,7 +40,7 @@ function ChatBubble() {
 
     setTimeout(() => {
       const aiMessage: MessageType = {
-        text: "Hmm… you're interesting today. I like that",
+        text: "Hmm… I'm still learning.",
         sender: "ai",
       };
 
