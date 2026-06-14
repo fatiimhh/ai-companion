@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+
 import "./ChatBubble.css";
+
 import ChatHeader from "./ChatHeader";
 import Message from "./Message";
 
+import { generateDooReply } from "../../logic/doo/personality";
 
 type MessageType = {
   text: string;
@@ -13,14 +16,22 @@ function ChatBubble() {
   const [input, setInput] = useState("");
 
   const [messages, setMessages] = useState<MessageType[]>([
-    { text: "Hey I’m Doo. Try me.", sender: "ai" },
+    { text: "Hey I’m Doo. Try me", sender: "ai" },
   ]);
 
   const [isTyping, setIsTyping] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto-scroll
+  const [context, setContext] = useState<{
+    lastMessages: string[];
+    messageCount: number;
+  }>({
+    lastMessages: [],
+    messageCount: 0,
+  });
+
+  // Auto-scroll 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
@@ -28,8 +39,10 @@ function ChatBubble() {
   const handleSend = () => {
     if (!input.trim()) return;
 
+    const userText = input;
+
     const userMessage: MessageType = {
-      text: input,
+      text: userText,
       sender: "user",
     };
 
@@ -39,14 +52,26 @@ function ChatBubble() {
     setIsTyping(true);
 
     setTimeout(() => {
-      const aiMessage: MessageType = {
-        text: "Hmm… I'm still learning.",
-        sender: "ai",
-      };
+      const result = generateDooReply(userText, {
+        lastMessages: context.lastMessages,
+        messageCount: context.messageCount,
+      });
 
-      setMessages((prev) => [...prev, aiMessage]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: result.response,
+          sender: "ai",
+        },
+      ]);
+
+      setContext((prev) => ({
+        lastMessages: [...prev.lastMessages, userText],
+        messageCount: prev.messageCount + 1,
+      }));
+
       setIsTyping(false);
-    }, 1200);
+    }, 1200 + Math.random() * 400);
   };
 
   return (
@@ -60,7 +85,7 @@ function ChatBubble() {
 
         {isTyping && (
           <div className="typing">
-            Doo is thinking<span className="dots">...</span>
+            Doo is thinking <span className="dots">...</span>
           </div>
         )}
 
