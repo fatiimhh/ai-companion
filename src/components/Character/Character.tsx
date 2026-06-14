@@ -2,18 +2,18 @@ import "./Character.css";
 
 
 
-type CharacterProps = {
-  onClick: () => void;
+type Props = {
+  onClick?: () => void;
+  emotion?: string;
 };
 
-function Character({ onClick }: CharacterProps) {
+function Character({ onClick, emotion = "neutral" }: Props) {
   return (
     <img
-  src="/robot.png"
-  alt="robot"
-  onClick={onClick}
-  className="character"
-/>
+      src="/robot.png"
+      onClick={onClick}
+      className={`character ${emotion}`}
+    />
   );
 }
 

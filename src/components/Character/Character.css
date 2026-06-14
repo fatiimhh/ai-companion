@@ -1,20 +1,32 @@
 .character {
   width: 120px;
-  cursor: grab;
-  user-select: none;
+  cursor: pointer;
   animation: float 3s ease-in-out infinite;
+  transition: transform 0.2s ease;
 }
 
+/* EMOTIONS */
+
+.character.neutral {
+  filter: none;
+}
+
+.character.playful {
+  transform: translateY(-3px) rotate(1deg);
+}
+
+.character.teasing {
+  transform: translateY(-5px) rotate(-2deg);
+  filter: brightness(1.1);
+}
+
+.character.curious {
+  transform: scale(1.05);
+}
+
+/* FLOAT */
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }

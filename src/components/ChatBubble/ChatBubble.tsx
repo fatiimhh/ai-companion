@@ -6,6 +6,7 @@ import ChatHeader from "./ChatHeader";
 import Message from "./Message";
 
 import { generateDooReply } from "../../logic/doo/personality";
+import type { Emotion, DooContext } from "../../logic/doo/types";
 
 type MessageType = {
   text: string;
@@ -21,17 +22,16 @@ function ChatBubble() {
 
   const [isTyping, setIsTyping] = useState(false);
 
+  const [emotion, setEmotion] = useState<Emotion>("neutral"); // New state for emotion
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  const [context, setContext] = useState<{
-    lastMessages: string[];
-    messageCount: number;
-  }>({
+  const [context, setContext] = useState<DooContext>({
     lastMessages: [],
     messageCount: 0,
   });
 
-  // Auto-scroll 
+  // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
@@ -52,10 +52,12 @@ function ChatBubble() {
     setIsTyping(true);
 
     setTimeout(() => {
-      const result = generateDooReply(userText, {
-        lastMessages: context.lastMessages,
-        messageCount: context.messageCount,
-      });
+      const nextContext: DooContext = {
+        lastMessages: [...context.lastMessages, userText],
+        messageCount: context.messageCount + 1,
+      };
+
+      const result = generateDooReply(userText, nextContext);
 
       setMessages((prev) => [
         ...prev,
@@ -65,10 +67,8 @@ function ChatBubble() {
         },
       ]);
 
-      setContext((prev) => ({
-        lastMessages: [...prev.lastMessages, userText],
-        messageCount: prev.messageCount + 1,
-      }));
+      setContext(nextContext);
+      setEmotion(result.emotion);
 
       setIsTyping(false);
     }, 1200 + Math.random() * 400);
