@@ -9,6 +9,7 @@ type MessageType = {
   sender: "user" | "ai";
 };
 
+
 function ChatBubble() {
   const [input, setInput] = useState("");
 
@@ -16,26 +17,34 @@ function ChatBubble() {
     { text: "Hey I’m Doo. Try me.", sender: "ai" },
   ]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+const [isTyping, setIsTyping] = useState(false); // typing indicator
 
+  const handleSend = () => {
+  if (!input.trim()) return;
+
+  const userMessage: MessageType = {
+    text: input,
+    sender: "user",
+  };
+
+  setMessages((prev) => [...prev, userMessage]);
+  setInput("");
+
+  setIsTyping(true);
+
+  setTimeout(() => {
     setMessages((prev) => [
       ...prev,
-      { text: input, sender: "user" },
+      {
+        text: "Hmm… you're interesting today. I like that.",
+        sender: "ai",
+      },
     ]);
 
-    setInput("");
+    setIsTyping(false);
+  }, 1200);
+};
 
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: "Hmm… interesting. I *could* respond nicely… but where’s the fun in that?",
-          sender: "ai",
-        },
-      ]);
-    }, 500);
-  };
 
   return (
     <div className="chat-bubble">
@@ -46,6 +55,13 @@ function ChatBubble() {
           <Message key={i} text={msg.text} sender={msg.sender} />
         ))}
       </div>
+
+      
+    {isTyping && (
+      <div className="typing">
+        Doo is thinking<span className="dots">...</span>
+     </div>
+      )}
 
       <div className="input-container">
         <input
