@@ -1,3 +1,5 @@
+
+/* chat bubble styles */
 .chat-bubble {
   position: absolute;
   bottom: 140px;
@@ -18,6 +20,8 @@
 
   animation: popIn 0.2s ease;
 }
+
+/* messages container styles */
 
 .messages-container {
   flex: 1;
@@ -45,6 +49,8 @@
   background: #f3f4f6;
   align-self: flex-start;
 }
+
+/* input container styles */
 
 .input-container {
   display: flex;
@@ -82,4 +88,25 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* Typing indicator styles */
+
+.typing {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: sans-serif;
+  color: #666;
+}
+
+.dots::after {
+  content: "...";
+  display: inline-block;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
 }
