@@ -3,8 +3,12 @@ import { useState } from "react";
 import Character from "./components/Character/Character";
 import ChatBubble from "./components/ChatBubble/ChatBubble";
 
+import type { Emotion } from "./logic/doo/types";
+
 function App() {
   const [showBubble, setShowBubble] = useState(false);
+
+  const [emotion, setEmotion] = useState<Emotion>("neutral");
 
   const handleCharacterClick = () => {
     setShowBubble(!showBubble);
@@ -22,9 +26,17 @@ function App() {
         padding: "20px",
       }}
     >
-      {showBubble && <ChatBubble />}
+      {showBubble && (
+        <ChatBubble
+          emotion={emotion}
+          setEmotion={setEmotion}
+        />
+      )}
 
-      <Character onClick={handleCharacterClick} />
+      <Character
+        emotion={emotion}
+        onClick={handleCharacterClick}
+      />
     </div>
   );
 }

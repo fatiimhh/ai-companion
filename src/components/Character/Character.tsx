@@ -8,6 +8,8 @@ type Props = {
 };
 
 function Character({ onClick, emotion = "neutral" }: Props) {
+  console.log("Character emotion:", emotion);
+  
   return (
     <img
       src="/robot.png"

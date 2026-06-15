@@ -13,7 +13,15 @@ type MessageType = {
   sender: "user" | "ai";
 };
 
-function ChatBubble() {
+type ChatBubbleProps = {
+  emotion: Emotion;
+  setEmotion: React.Dispatch<React.SetStateAction<Emotion>>;
+};
+
+function ChatBubble({
+  emotion,
+  setEmotion,
+}: ChatBubbleProps) {
   const [input, setInput] = useState("");
 
   const [messages, setMessages] = useState<MessageType[]>([
@@ -21,8 +29,6 @@ function ChatBubble() {
   ]);
 
   const [isTyping, setIsTyping] = useState(false);
-
-  const [emotion, setEmotion] = useState<Emotion>("neutral"); // New state for emotion
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -68,6 +74,8 @@ function ChatBubble() {
       ]);
 
       setContext(nextContext);
+
+      // Update Doo's emotion globally
       setEmotion(result.emotion);
 
       setIsTyping(false);
@@ -78,9 +86,24 @@ function ChatBubble() {
     <div className="chat-bubble">
       <ChatHeader />
 
+      {/* Debug panel */}
+      <div
+        style={{
+          fontSize: "12px",
+          opacity: 0.6,
+          marginBottom: "8px",
+        }}
+      >
+        Emotion: {emotion}
+      </div>
+
       <div className="messages-container">
         {messages.map((msg, i) => (
-          <Message key={i} text={msg.text} sender={msg.sender} />
+          <Message
+            key={i}
+            text={msg.text}
+            sender={msg.sender}
+          />
         ))}
 
         {isTyping && (
@@ -99,7 +122,9 @@ function ChatBubble() {
           placeholder="Talk to Doo..."
         />
 
-        <button onClick={handleSend}>Send</button>
+        <button onClick={handleSend}>
+          Send
+        </button>
       </div>
     </div>
   );
