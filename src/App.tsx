@@ -1,8 +1,6 @@
 import { useState } from "react";
-
-import Character from "./components/Character/Character";
+import Character3D from "./components/Character3D/Character3D";
 import ChatBubble from "./components/ChatBubble/ChatBubble";
-
 import type { Emotion } from "./logic/doo/types";
 
 function App() {
@@ -33,10 +31,9 @@ function App() {
         />
       )}
 
-      <Character
-        emotion={emotion}
-        onClick={handleCharacterClick}
-      />
+      <div onClick={handleCharacterClick}>
+        <Character3D emotion={emotion} />
+      </div>
     </div>
   );
 }
