@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Character3D from "./components/Character3D/Character3D";
+import Character3D from "./components/Character/Character3D";
 import ChatBubble from "./components/ChatBubble/ChatBubble";
 import type { Emotion } from "./logic/doo/types";
 
